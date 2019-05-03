@@ -10,6 +10,8 @@
   "author": "philippe",
   "license": "ISC",
   "dependencies": {
-    "express": "latest"
+    "cors": "^2.8.5",
+    "express": "latest",
+    "pg": "^7.10.0"
   }
 }
