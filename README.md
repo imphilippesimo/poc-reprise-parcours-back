@@ -36,7 +36,7 @@ postgres=> CREATE DATABASE process;
 ####Connect to the newly created database
 ```sh
 postgres=> \c process
-process=> CREATE TABLE process_instance (process_id VARCHAR PRIMARY KEY ,process_instance_id VARCHAR,saved_date VARCHAR,url VARCHAR,steps JSON);
+process=> CREATE TABLE process_instance (process_instance_id VARCHAR PRIMARY KEY ,process_id VARCHAR,saved_date VARCHAR,url VARCHAR,steps JSON);
 
 ```
 
