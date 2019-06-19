@@ -21,7 +21,7 @@ app.options("/*", function (req, res, next) {
 });
 
 // Access the parse results as request.body
-app.post('/step', function (request, response) {
+app.post('/step', function (request, response) {   
     const data = request.body;
     const date = new Date(data.savedDate);
     //console.log(data);
@@ -31,7 +31,7 @@ app.post('/step', function (request, response) {
         let processInstance = db.getProcessInstanceById(data.processInstanceId);
         if (processInstance) {
 
-            db.updateProcessInstance(data.processInstanceId, flattenUrl(data.url,data.processInstanceId), data.savedDate, steps)
+            db.updateProcessInstance(data.processInstanceId, generateURL(request.get('origin'),data.processInstanceId), data.savedDate, steps)
                 .then(result => {
                     response.status(200).send(result);
                 }).catch((error) => {
@@ -45,7 +45,8 @@ app.post('/step', function (request, response) {
     } else {
 
         const processInstanceId = Math.floor(Math.random() * 200000).toString();
-        db.createProcessInstance(data.processId, processInstanceId, flattenUrl(data.url, processInstanceId), data.savedDate, steps)
+        console.log(processInstanceId);
+        db.createProcessInstance(data.processId, processInstanceId, generateURL(request.get('origin'), processInstanceId), data.savedDate, steps)
             .then(result => {
                 response.status(201).send(result);
             })
@@ -77,9 +78,9 @@ app.get('/step', function (request, response) {
 
 });
 
-const flattenUrl = (url, processInstanceId) => {
+const generateURL = (origin, processInstanceId) => {
 
-    return url.host + ":" + url.port + "/" + url.stepId + "?instance_id=" + processInstanceId;
+    return origin+"/step?instance_id=" + processInstanceId;
 
 }
 
